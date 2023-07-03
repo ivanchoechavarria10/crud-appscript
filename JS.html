@@ -1,0 +1,95 @@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+
+  window.addEventListener("load", buscarDatos);
+
+  function validarFormulario(){
+    const form = document.getElementById('crearUsuario');
+    const id = form.usuarioId.value;
+    if(id ===''){
+      //Create
+      google.script.run
+    .withSuccessHandler(result =>{
+      form.reset();
+      var modalCreate = document.querySelector('#createModal');
+      var modal = bootstrap.Modal.getOrCreateInstance(modalCreate);
+      modal.hide();
+      /*window.location.reload();*/
+    })
+    .agregarUsuario(form);
+    }else{
+      //update
+      google.script.run
+      .withSuccessHandler(result => {
+        form.reset();
+      var modalCreate = document.querySelector('#createModal');
+      var modal = bootstrap.Modal.getOrCreateInstance(modalCreate);
+      modal.hide();
+      /*window.location.reload();*/
+      })
+      .editarUsuario(form);
+    }
+    
+  }
+
+  function buscarDatos(){
+    google.script.run
+    .withSuccessHandler(dataUsuarios=>{
+      let tableBody = document.getElementById("tableBody-usuarios");
+      var template = document.getElementById("rowTemplate");
+      var templateContent = template.content;
+
+      dataUsuarios.forEach(usuario =>{
+        const tr = templateContent.cloneNode(true);
+
+        const nombresCol = tr.querySelector(".template-nombres");
+        const apellidosCol = tr.querySelector(".template-apellidos");
+        const sexoCol = tr.querySelector(".template-sexo");
+        const correoCol = tr.querySelector(".template-correo");
+        const nacimientoCol = tr.querySelector(".template-nacimiento");
+        const telefonoCol = tr.querySelector(".template-telefono");
+        const accionesCol = tr.querySelector(".template-acciones");
+        const editButton = tr.querySelector(".button-edit");
+        const deleteButton = tr.querySelector(".button-delete");
+
+        nombresCol.textContent = usuario[1];
+        apellidosCol.textContent = usuario[2];
+        sexoCol.textContent = usuario[3];
+        correoCol.textContent = usuario[4];
+        nacimientoCol.textContent = usuario[5];
+        telefonoCol.textContent = usuario[6];
+        editButton.dataset.usuarioId = usuario[0];
+        deleteButton.dataset.usuarioId = usuario[0];
+
+        tableBody.appendChild(tr);
+
+      })
+    })
+    .readUsers();
+  }
+
+  function editarUsuarioModal(button){
+    const tableRow = button.parentNode.parentNode;
+    /*console.log(tableRow);*/
+    const id = button.dataset.usuarioId;
+    const name = tableRow.cells[0].innerHTML;
+    const apellidos = tableRow.cells[1].innerHTML;
+    const sexo = tableRow.cells[2].innerHTML;
+    const correo = tableRow.cells[3].innerHTML;
+    const nacimiento = tableRow.cells[4].innerHTML;
+    const telefono = tableRow.cells[5].innerHTML;
+
+    const crearModal = bootstrap.Modal.getOrCreateInstance('#createModal');
+    crearModal.show();
+
+    document.getElementById("nombreUsuario").value = name;
+    document.getElementById("apellidoUsuario").value = apellidos;
+    document.getElementById("sexoUsuario").value = sexo;
+    document.getElementById("correoUsuario").value = correo;
+    document.getElementById("fechaNacimientoUsuario").value = nacimiento;
+    document.getElementById("telefonoUsuario").value = telefono;
+    document.getElementById("usuarioId").value = id;
+
+  }
+
+</script>

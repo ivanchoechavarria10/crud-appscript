@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= include('CSS') ?>
+  </head>
+  <body>
+    
+    <main class="container">
+      <h1 class="mb-5"> CRUD Project </h1>
+      <div class="d-flex justify-content-between mb-3">
+        <div class="col">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal"><i class="bi bi-plus"></i> Agregar</button>
+          
+        </div>
+        <div class="col-3">
+          <input type="text" class="form-control" id="buscarRegistro" placeholder="Buscar...">
+        </div>
+      </div>
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Sexo</th>
+              <th>Correo</th>
+              <th>Fecha de nacimiento</th>
+              <th>Teléfono</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody-usuarios">
+
+          </tbody>
+        </table>
+    </main>
+
+    <template id="rowTemplate">
+      <tr>
+        <td class="template-nombres"></td>
+        <td class="template-apellidos"></td>
+        <td class="template-sexo"></td>
+        <td class="template-correo"></td>
+        <td class="template-nacimiento"></td>
+        <td class="template-telefono"></td>
+        <td class="template-acciones text-center"><i class="bi bi-pencil-square button-edit me-3" role="button" onclick="editarUsuarioModal(this)"></i><i class="bi bi-trash button-delete" role="button"></i></td>
+      </tr>
+    </template>
+
+    <!-- Modal Create-->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="createModalLabel">Crear usuario</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form name="crearUsuario" id= "crearUsuario">
+              <div class="row mb-3">
+                <div class="mb-3">
+                  <input type="text" class="form-control" placeholder="#" aria-label="usuarioId" name="usuarioId" id="usuarioId" hidden>
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" placeholder="Nombre(s)">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" id="apellidoUsuario" name="apellidoUsuario" placeholder="Apellido(s)">
+                </div>
+              </div>
+              <select class="form-select mb-3" aria-label="sexoUsuario" name="sexoUsuario" id="sexoUsuario">
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="N/A">Prefiero no decirlo</option>
+              </select>
+
+              <div class="mb-3">
+                <input type="email" class="form-control" id="correoUsuario" name="correoUsuario" placeholder="usuario@ejemplo.com">
+              </div>
+              <div class="mb-3">
+                <input type="date" class="form-control" id="fechaNacimientoUsuario" name="fechaNacimientoUsuario">
+              </div>
+              <div class="mb-3">
+                <input type="number" class="form-control" id="telefonoUsuario" name="telefonoUsuario" placeholder="3148558585">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary" onclick="validarFormulario()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <?!= include('JS') ?>
+  </body>
+</html>
